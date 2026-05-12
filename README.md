@@ -119,12 +119,30 @@ Important: wallet needs ETH for gas. Free mint costs 0 ETH, but transaction gas 
 
 Use this for normal VPS or if GPU setup is not ready.
 
-## Install CPU dependencies only
+The CPU miner is **multi-process** — it spawns one worker per CPU core so
+hashrate scales (close to) linearly with cores. All tuning lives in `.env`
+(see `.env.example` for the full list: `WORKERS`, `GAS_LIMIT`,
+`MAX_FEE_GWEI`, …).
+
+> For a step-by-step setup walkthrough in **Bahasa Indonesia** including
+> tuning tips, see [CPU_LOCAL_SETUP.md](CPU_LOCAL_SETUP.md).
+
+## One-shot installer (Linux / macOS / WSL)
+
+```bash
+cd pfft-miner
+bash setup_cpu.sh                  # creates venv, installs deps, copies .env
+nano .env                          # set PRIVATE_KEY and ETH_RPC
+./run_cpu.sh                       # foreground
+./run_cpu.sh --tmux                # detachable tmux session
+```
+
+## Manual install
 
 ```bash
 cd /root/pfft-miner
 source venv/bin/activate
-python -m pip install web3 pycryptodome
+python -m pip install -r requirements-cpu.txt
 ```
 
 ## Run CPU miner
